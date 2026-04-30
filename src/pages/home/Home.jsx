@@ -20,7 +20,7 @@ const Home = () => {
         {goalsList.length === 0 && (
           <Box
             sx={{
-              height: "calc(100vh - 255px)",
+              height: "calc(100vh - 265px)",
               display: "flex",
               flexDirection: "column",
               gap: 3,
@@ -44,7 +44,13 @@ const Home = () => {
             </Button>
           </Box>
         )}
-        <Box sx={{ width: { xs: "70%", sm: "100%", margin: "auto" }, mt: 8 }}>
+        <Box
+          sx={{
+            width: { xs: "70%", sm: "100%", margin: "auto" },
+            mt: 8,
+            mb: 4,
+          }}
+        >
           <Grid container spacing={3}>
             {goalsList.map((goal) => (
               <Grid key={goal.id} size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
