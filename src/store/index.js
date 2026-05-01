@@ -1,24 +1,24 @@
-import { configureStore } from '@reduxjs/toolkit'
-import rootReducer from './rootReducer'
+import { configureStore } from "@reduxjs/toolkit";
+import rootReducer from "./rootReducer";
 
-import storageModule from 'redux-persist/lib/storage'
-import { persistReducer, persistStore } from 'redux-persist'
+import storageModule from "redux-persist/lib/storage";
+import { persistReducer, persistStore } from "redux-persist";
 
-const storage = storageModule.default
+const storage = storageModule.default;
 const persistConfig = {
-  key: 'root',
+  key: "root",
   storage,
-  whitelist: ['tracker'] // which slices to persist
-}
+  whitelist: ["tracker", "settings"], // which slices to persist
+};
 
-const persistedReducer = persistReducer(persistConfig, rootReducer)
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
-      serializableCheck: false // required for redux-persist
-    })
-})
+      serializableCheck: false, // required for redux-persist
+    }),
+});
 
-export const persistor = persistStore(store)
+export const persistor = persistStore(store);

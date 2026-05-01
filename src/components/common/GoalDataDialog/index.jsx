@@ -1,4 +1,8 @@
-import { calculatePercentage, formatDate } from "@/utils";
+import {
+  calculatePercentage,
+  formatDate,
+  formatPercentageWithPrecision,
+} from "@/utils";
 import {
   alpha,
   Box,
@@ -15,10 +19,12 @@ import {
 import { useState } from "react";
 import AddTrackerDialog from "../AddTrackerDialog";
 import useTracker from "@/features/tracker/trackerHook";
+import useSettings from "@/features/settings/settingsHook";
 
 const GoalDataDialog = ({ open, onClose, data }) => {
   const theme = useTheme();
   const { deleteTrackerDataAction } = useTracker();
+  const { precision } = useSettings();
 
   const [editOpen, setEditOpen] = useState(false);
 
@@ -29,6 +35,11 @@ const GoalDataDialog = ({ open, onClose, data }) => {
   const handleEditClose = () => {
     setEditOpen(false);
   };
+
+  const percentage = calculatePercentage(
+    data.units_completed,
+    data.total_units,
+  );
   return (
     <>
       <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
@@ -65,8 +76,7 @@ const GoalDataDialog = ({ open, onClose, data }) => {
 
             <Box sx={{ mt: 2 }}>
               <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>
-                {calculatePercentage(data.units_completed, data.total_units)}%
-                Complete
+                {formatPercentageWithPrecision(percentage, precision)}% Complete
               </Typography>
               <LinearProgress
                 variant="determinate"

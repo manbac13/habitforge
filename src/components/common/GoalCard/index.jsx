@@ -27,6 +27,7 @@ const GoalCard = ({ data }) => {
           flexDirection: "column",
           justifyContent: "space-between",
           border: "1px solid",
+          borderColor: theme.palette.mode === 'dark' ? theme.palette.grey[200] : 'inherit',
           borderTop: "4px solid",
           borderBottom: "none",
           pt: 1.5,
@@ -74,7 +75,7 @@ const GoalCard = ({ data }) => {
             value={calculatePercentage(data.units_completed, data.total_units)}
             sx={{
               height: 10,
-              backgroundColor: "#1a1a1a",
+              backgroundColor: theme.palette.mode === 'light' ? "#1a1a1a" : theme.palette.grey[200],
               "& .MuiLinearProgress-bar": {
                 backgroundColor: (theme) => theme.palette.warning.light,
                 transition: "transform 0.4s ease",

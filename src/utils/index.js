@@ -10,3 +10,11 @@ export const formatDate = (dateString) => {
     day: "numeric",
   });
 };
+
+export const formatPercentageWithPrecision = (value, precision = 0) => {
+  if (value === null || value === undefined || isNaN(value)) return "0";
+
+  const safePrecision = Number.isInteger(precision) ? precision : 0;
+
+  return Number(value).toFixed(safePrecision);
+};
