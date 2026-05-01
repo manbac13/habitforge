@@ -36,10 +36,10 @@ const GoalDataDialog = ({ open, onClose, data }) => {
     setEditOpen(false);
   };
 
-  const percentage = calculatePercentage(
-    data.units_completed,
-    data.total_units,
-  );
+  const percentage =
+    data.total_units === 0
+      ? 0
+      : (data.units_completed / data.total_units) * 100;
   return (
     <>
       <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
