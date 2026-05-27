@@ -6,6 +6,7 @@ import {
   Select,
   Stack,
   Typography,
+  useMediaQuery,
   useTheme,
 } from "@mui/material";
 
@@ -15,10 +16,14 @@ const GeneralSettings = () => {
   //general settings
   const { setPrecisionAction, precision } = useSettings();
 
+  const mobile = useMediaQuery(theme.breakpoints.down("md"));
   return (
     <>
       <Box>
-        <Stack direction={"row"} sx={{ justifyContent: "space-between" }}>
+        <Stack
+          direction={mobile ? "column" : "row"}
+          sx={{ justifyContent: "space-between", gap: mobile ? 1 : 0 }}
+        >
           <Stack>
             <FormLabel
               sx={{
