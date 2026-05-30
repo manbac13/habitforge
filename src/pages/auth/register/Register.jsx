@@ -59,10 +59,11 @@ const Register = () => {
     try {
       const res = await registerAction(formData).unwrap();
       if (res.success) {
-        await loginAction({
+        let loginRes = await loginAction({
           email: formData.email,
           password: formData.password,
         }).unwrap();
+        localStorage.setItem("access_token", loginRes.data.access_token);
         notify({ message: res.message, severity: "success" });
         navigate("/");
       }
