@@ -45,6 +45,7 @@ const Login = () => {
       notify({ message: res.message, severity: "success" });
       navigate("/");
     } catch (error) {
+      notify({ message: error, severity: "error" });
       console.error(error);
     }
   };

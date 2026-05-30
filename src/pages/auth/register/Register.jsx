@@ -68,6 +68,7 @@ const Register = () => {
         navigate("/");
       }
     } catch (error) {
+      notify({ message: error, severity: "error" });
       console.error(error);
     }
   };
