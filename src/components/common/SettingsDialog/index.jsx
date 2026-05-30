@@ -1,3 +1,4 @@
+import useAuth from "@/features/auth/authHook";
 import GeneralSettings from "@/sections/Settings/GeneralSettings";
 import ThemeSettings from "@/sections/Settings/ThemeSettings";
 import {
@@ -18,11 +19,13 @@ import { useState } from "react";
 const tabs = [
   { id: 1, slug: "general", title: "General" },
   { id: 2, slug: "theme", title: "Theme" },
+  { id: 3, slug: "logout", title: "Logout" },
 ];
 
 const SettingsDialog = ({ open, onClose }) => {
   const theme = useTheme();
   const [selectedTab, setSelectedTab] = useState("general");
+  const { logoutAction } = useAuth();
   return (
     <>
       <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
@@ -51,7 +54,13 @@ const SettingsDialog = ({ open, onClose }) => {
                       <ListItemButton
                         disableRipple
                         selected={selectedTab === item.slug}
-                        onClick={() => setSelectedTab(item.slug)}
+                        onClick={() => {
+                          if (item.slug !== "logout") {
+                            setSelectedTab(item.slug);
+                          } else {
+                            logoutAction();
+                          }
+                        }}
                       >
                         <ListItemText>{item.title}</ListItemText>
                       </ListItemButton>

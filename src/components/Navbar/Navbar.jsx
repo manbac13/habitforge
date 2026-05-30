@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Fade,
   Typography,
   useMediaQuery,
   useTheme,
@@ -25,30 +26,32 @@ const Navbar = () => {
   const mobile = useMediaQuery(theme.breakpoints.down("md"));
   return (
     <>
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: mobile ? "space-between" : "center",
-          alignItems: "center",
-          py: 2,
-          borderBottom: "1px solid",
-        }}
-      >
-        <Typography variant="h2" sx={{ fontFamily: '"Estonia", cursive' }}>
-          HabitForge
-        </Typography>
+      <Fade in={true} appear timeout={1000}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: mobile ? "space-between" : "center",
+            alignItems: "center",
+            py: 2,
+            borderBottom: "1px solid",
+          }}
+        >
+          <Typography variant="h2" sx={{ fontFamily: '"Estonia", cursive' }}>
+            HabitForge
+          </Typography>
 
-        {mobile && (
-          <Box sx={{ display: "flex", gap: 1, pt: 2 }}>
-            <Button variant="theme" onClick={() => setTrackerOpen(true)}>
-              Add Goal
-            </Button>
-            <Button variant="theme" onClick={() => setSettingsOpen(true)}>
-              Settings
-            </Button>
-          </Box>
-        )}
-      </Box>
+          {mobile && (
+            <Box sx={{ display: "flex", gap: 1, pt: 2 }}>
+              <Button variant="theme" onClick={() => setTrackerOpen(true)}>
+                Add Goal
+              </Button>
+              <Button variant="theme" onClick={() => setSettingsOpen(true)}>
+                Settings
+              </Button>
+            </Box>
+          )}
+        </Box>
+      </Fade>
 
       <AddTrackerDialog open={trackerOpen} onClose={handleTrackerDialogClose} />
       <SettingsDialog open={settingsOpen} onClose={handleSettingsDialogClose} />

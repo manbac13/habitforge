@@ -8,7 +8,7 @@ const storage = storageModule.default;
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["tracker", "settings"], // which slices to persist
+  whitelist: ["auth", "tracker", "settings", "goals"], // which slices to persist
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
 
-const removeUnderscores = (str) => str.replace(/_/g, " ");
+const removeUnderscores = (str) => str?.replace(/_/g, " ");
 
 const GoalStatusChip = ({ label }) => {
   return (

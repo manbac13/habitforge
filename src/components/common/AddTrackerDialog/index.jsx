@@ -13,15 +13,10 @@ import { goalSchema } from "./schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
-import useTracker from "@/features/tracker/trackerHook";
-import { v4 as uuidv4 } from "uuid";
+import useGoals from "@/features/goals/goalsHook";
+import { notify } from "@/utils/notify/notify";
 
-const labelStyle = {
-  fontWeight: 500,
-  colot: "#141414",
-};
-
-const AddTrackerDialog = ({ open, onClose, data }) => {
+const AddTrackerDialog = ({ open, onClose, data, parentClose }) => {
   const {
     register,
     handleSubmit,
@@ -30,38 +25,46 @@ const AddTrackerDialog = ({ open, onClose, data }) => {
     watch,
   } = useForm({
     resolver: zodResolver(goalSchema),
+    mode: "onChange",
     defaultValues: {
       title: "",
       description: "",
       unit_name: "",
       units_completed: 0,
       total_units: 1,
-      status: "pending",
     },
   });
 
-  const { addTrackerDataAction, updateTrackerDataAction } = useTracker();
+  const { createGoalAction, updateGoalAction, loading, getAllGoalsAction } =
+    useGoals();
   const isEditMode = !!data;
 
-  const onSubmit = (formData) => {
-    console.log("FORM DATA:", formData);
-    if (isEditMode) {
-      const updatedData = {
-        ...formData,
-        id: data.id,
-      };
-      updateTrackerDataAction(updatedData);
-    } else {
-      const newData = {
-        ...formData,
-        id: uuidv4(),
-        createdAt: new Date().toISOString(),
-      };
-      addTrackerDataAction(newData);
+  const onSubmit = async (formData) => {
+    try {
+      if (isEditMode) {
+        const updatedData = {
+          ...formData,
+          id: data._id,
+        };
+        const res = await updateGoalAction(updatedData).unwrap();
+        notify({ message: res.message, severity: "success" });
+      } else {
+        const newData = {
+          ...formData,
+        };
+        const res = await createGoalAction(newData).unwrap();
+        notify({ message: res.message, severity: "success" });
+      }
+      await getAllGoalsAction().unwrap();
+      reset();
+      onClose();
+      if (parentClose) {
+        parentClose();
+      }
+    } catch (error) {
+      notify({ message: error, severity: "error" });
+      console.error(error);
     }
-
-    reset();
-    onClose();
   };
 
   useEffect(() => {
@@ -86,7 +89,7 @@ const AddTrackerDialog = ({ open, onClose, data }) => {
         <Grid container spacing={2}>
           <Grid size={12}>
             <Stack spacing={1}>
-              <FormLabel sx={{ ...labelStyle }}>Title</FormLabel>
+              <FormLabel>Title</FormLabel>
               <TextField
                 size="small"
                 {...register("title")}
@@ -162,6 +165,7 @@ const AddTrackerDialog = ({ open, onClose, data }) => {
           Cancel
         </Button>
         <Button
+          loading={loading}
           variant="contained"
           sx={{ background: (theme) => theme.palette.warning.dark }}
           onClick={handleSubmit(onSubmit)}

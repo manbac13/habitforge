@@ -18,12 +18,13 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import AddTrackerDialog from "../AddTrackerDialog";
-import useTracker from "@/features/tracker/trackerHook";
 import useSettings from "@/features/settings/settingsHook";
+import useGoals from "@/features/goals/goalsHook";
+import { notify } from "@/utils/notify/notify";
 
 const GoalDataDialog = ({ open, onClose, data }) => {
   const theme = useTheme();
-  const { deleteTrackerDataAction } = useTracker();
+  const { deleteGoalAction, loading, getAllGoalsAction } = useGoals();
   const { precision } = useSettings();
 
   const [editOpen, setEditOpen] = useState(false);
@@ -40,6 +41,18 @@ const GoalDataDialog = ({ open, onClose, data }) => {
     data.total_units === 0
       ? 0
       : (data.units_completed / data.total_units) * 100;
+
+  const handleDeleteTask = async () => {
+    try {
+      await deleteGoalAction(data._id).unwrap();
+      onClose();
+      getAllGoalsAction();
+      notify({ message: "Goal deleted!", severity: "success" });
+    } catch (error) {
+      // notify({ message: error?.response?.data?.message, severity: "error" });
+      console.error(error);
+    }
+  };
   return (
     <>
       <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
@@ -103,9 +116,10 @@ const GoalDataDialog = ({ open, onClose, data }) => {
           sx={{ display: "flex", justifyContent: "space-between" }}
         >
           <Button
-            onClick={() => deleteTrackerDataAction(data.id)}
+            onClick={handleDeleteTask}
             variant="outlined"
             color="error"
+            loading={loading}
           >
             Delete this task
           </Button>
@@ -124,7 +138,12 @@ const GoalDataDialog = ({ open, onClose, data }) => {
         </DialogActions>
       </Dialog>
 
-      <AddTrackerDialog open={editOpen} onClose={handleEditClose} data={data} />
+      <AddTrackerDialog
+        open={editOpen}
+        onClose={handleEditClose}
+        data={data}
+        parentClose={onClose}
+      />
     </>
   );
 };
