@@ -32,7 +32,14 @@ axiosInstance.interceptors.response.use(
     if (!error.response) {
       return Promise.reject(error);
     }
-    if (error.response?.status === 401) {
+
+    const isAuthRequest =
+      error.config?.url?.includes("/auth/login") ||
+      error.config?.url?.includes("/auth/register");
+
+    const hasToken = !!localStorage.getItem("access_token");
+
+    if (error.response?.status === 401 && hasToken && !isAuthRequest) {
       localStorage.removeItem("access_token");
       triggerLogout();
     }
