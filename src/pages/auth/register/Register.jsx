@@ -5,7 +5,6 @@ import {
   FormLabel,
   IconButton,
   InputAdornment,
-  Link,
   OutlinedInput,
   // FormControlLabel,
   Stack,
@@ -18,7 +17,7 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import useAuth from "@/features/auth/authHook";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { notify } from "@/utils/notify/notify";
 
 const labelStyle = {
@@ -171,8 +170,18 @@ const Register = () => {
               </Button>
               <Typography variant="body2" sx={{ textAlign: "center", mt: 1 }}>
                 Already have an account?{" "}
-                <Link href="/login" sx={{ cursor: "pointer" }} color="warning">
-                  Sign in
+                <Link
+                  to="/login"
+                  style={{ textDecorationColor: theme.palette.warning.dark }}
+                >
+                  <span
+                    style={{
+                      cursor: "pointer",
+                      color: theme.palette.warning.dark,
+                    }}
+                  >
+                    Sign in
+                  </span>
                 </Link>
               </Typography>
             </Box>

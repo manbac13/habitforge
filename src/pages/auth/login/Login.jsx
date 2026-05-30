@@ -3,8 +3,6 @@ import {
   Box,
   Button,
   FormLabel,
-  Link,
-  // FormControlLabel,
   Stack,
   TextField,
   Typography,
@@ -13,7 +11,7 @@ import {
 import { useForm } from "react-hook-form";
 import { loginSchema } from "./schema";
 import useAuth from "@/features/auth/authHook";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { notify } from "@/utils/notify/notify";
 
 const labelStyle = {
@@ -116,11 +114,17 @@ const Login = () => {
               <Typography variant="body2" sx={{ textAlign: "center", mt: 1 }}>
                 Don&apos;t have an account?{" "}
                 <Link
-                  href="/register"
-                  sx={{ cursor: "pointer" }}
-                  color="warning"
+                  to="/register"
+                  style={{ textDecorationColor: theme.palette.warning.dark }}
                 >
-                  Sign up
+                  <span
+                    style={{
+                      cursor: "pointer",
+                      color: theme.palette.warning.dark,
+                    }}
+                  >
+                    Sign up
+                  </span>
                 </Link>
               </Typography>
             </Box>
