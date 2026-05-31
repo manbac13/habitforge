@@ -8,6 +8,7 @@ import { setLogoutHandler } from "./utils/authEvents";
 import { useDispatch } from "react-redux";
 import { setIsAuthenticated } from "./features/auth/authSlice";
 import { notify } from "./utils/notify/notify";
+import { setNotificationHandler } from "./utils/notificationEvents";
 
 function App() {
   const { appThemeMode } = useSettings();
@@ -23,8 +24,13 @@ function App() {
         severity: "error",
       });
     });
+
+    setNotificationHandler((notification) => {
+      notify(notification);
+    });
     return () => {
       setLogoutHandler(null);
+      setNotificationHandler(null);
     };
   }, [dispatch]);
   return (

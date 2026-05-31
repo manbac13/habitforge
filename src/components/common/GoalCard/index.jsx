@@ -32,7 +32,7 @@ const GoalCard = ({ data }) => {
         >
           <Box
             sx={{
-              height: "24rem",
+              height: {xs: "24rem", xl: "26rem", xxl: "30rem"},
               display: "flex",
               flexDirection: "column",
               justifyContent: "space-between",

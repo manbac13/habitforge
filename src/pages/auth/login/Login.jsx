@@ -69,7 +69,7 @@ const Login = () => {
                 ? theme.palette.grey[200]
                 : "inherit",
             borderTop: "4px solid",
-            minWidth: { xs: "80%", sm: "60%", md: "70%", lg: "45%" },
+            minWidth: { xs: "80%", sm: "60%", md: "70%", lg: "45%", xl: "40%", xxl: '35%' },
           }}
         >
           <Stack spacing={4}>

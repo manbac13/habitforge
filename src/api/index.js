@@ -1,6 +1,7 @@
 import axios from "axios";
 // import { notify } from "@/utils/notify/notify";
 import { triggerLogout } from "@/utils/authEvents";
+import { triggerNotification } from "@/utils/notificationEvents";
 
 const getBaseURL = () => {
   let mode = import.meta.env.MODE;
@@ -30,6 +31,11 @@ axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
     if (!error.response) {
+      triggerNotification({
+        message: "Unable to connect to the server. Please try again later.",
+        severity: "error",
+      });
+
       return Promise.reject(error);
     }
 

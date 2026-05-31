@@ -8,7 +8,10 @@ const AuthLayout = () => {
         <Grid container>
           <Grid
             size={{ xs: 0, md: 5, lg: 4 }}
-            sx={{ background: (theme) => theme.palette.warning.dark }}
+            sx={{
+              background: (theme) => theme.palette.warning.dark,
+              display: { xs: "none", md: "block" },
+            }}
           >
             <Box
               sx={{

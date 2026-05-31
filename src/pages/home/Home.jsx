@@ -74,7 +74,7 @@ const Home = () => {
         >
           <Grid container spacing={3}>
             {filteredGoalList?.map((goal) => (
-              <Grid key={goal._id} size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+              <Grid key={goal._id} size={{ xs: 12, sm: 6, md: 4, lg: 3, xl: 3, xxl: 2.4 }}>
                 <GoalCard data={goal} key={goal._id} />
               </Grid>
             ))}
